@@ -1,12 +1,5 @@
 <?php
 
-	// Datenbank
-	define('DB_HOST', 'localhost');
-	// define('DB_HOST', 'mysql1.kontent.de');
-	define('DB_USER', 'org89271');
-	define('DB_PASSWORD', '3dsmax');
-	define('DB_DATABASE', 'org89271');
-
 	// Wie heißen die einzelnen Tabellen?
 	define('DB_PERMISSIONS', 'permissions_new');				// Zugangsberechtigungen
 	define('DB_USERS', 'users');								// Die einzelnen Useraccounts
@@ -33,11 +26,10 @@
 	define('DEFAULT_STYLESHEET', 'etc/style.css');
 
 	// Name des OV's
-	define('OV_NAME', 'München-West auf TNT');
-//	define('OV_NAME', 'München-West');
+	define('OV_NAME', 'München-West');
 
 	// Anzahl von verschiedenen Sachen pro Seite
-	define('NEWS_PER_PAGE', '3');							// Gibt an wieviel News auf der Starseite stehen sollen
+	define('NEWS_PER_PAGE', '5');							// Gibt an wieviel News auf der Starseite stehen sollen
 	define('REPORTS_PER_COLUMN', '5');						// Wieviele Berichte pro Kolumne?
 	define('PHOTOS_PER_REPORT', '4');						// Wieviele Photos pro Bericht auf einmal sichtbar?
 	
