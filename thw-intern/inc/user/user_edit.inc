@@ -127,8 +127,8 @@
 					$sql = "update " . DB_USERS . " set
 							n_name = '$n_name',
 							v_name = '$v_name',
-							einheit = '',
-							rang = $rang,
+							einheit = $einheit,
+							rang = $rang_new,
 							email = '$email',
 							homepage = '$homepage',
 							icq = '$icq',
@@ -158,12 +158,12 @@
 					$n_name = '';
 					$geburtstag = '';
 					$email = '';
-					$rang = '';
+					$rang_new = '';
 					$telefon = '';
 					$handy = '';
 					$icq = '';
 					$homepage = '';
-
+					$einheit = '';
 				}
 			}
 
@@ -171,7 +171,7 @@
 					$n_name = $raw[n_name];
 					$geburtstag = strftime('%d.%m.%Y', $raw[geburtstag]);
 					$email = $raw[email];
-					$rang = $raw[rang];
+					$rang_new = $raw[rang];
 
 					$temp = explode('##', $raw[telefon]);
 
@@ -179,6 +179,7 @@
 					$handy = $temp[1];
 					$icq = $raw[icq];
 					$homepage = $raw[homepage];
+					$einheit = $raw[einheit];
 
 					if ($UserEditor->admin())
 					{
@@ -192,7 +193,7 @@
 					{
 						// echo 'We`re not Admin';
 						$disable_rank = ' disabled ';
-						$pre_disable_rank = '<input type=hidden name=rang value=' . $raw[rang] . '>';
+						$pre_disable_rank = '<input type=hidden name=rang_new value=' . $raw[rang] . '>';
 						$disable_name = ' disabled><input type=hidden name=n_name value=' . $raw[n_name] . '><input type=hidden name=v_name value=' . $raw[v_name];
 					}
 
@@ -319,14 +320,11 @@
 									Rang
 								</td>
 								<td>
-									' . $pre_disable_rank . '<select size=1 name=rang ' . $disable_rank . '>';
+									' . $pre_disable_rank . '<select size=1 name=rang_new ' . $disable_rank . '>';
 
-								$sql = "select name, id, rang from " . DB_RANG . " order by rang";
-								$tmp = $db->query($sql);
-
-								while ($current = $db->fetch_array($tmp))
+								for ($i = 0; $i < ZUFU; $i++)
 								{
-									if ($current[rang] == ($rang))
+									if (($i + 1) == $rang_new)
 									{
 										$input_string = 'selected';
 									}
@@ -334,9 +332,35 @@
 									{
 										$input_string = '';
 									}
+
 									$output .= '
-										<option value=' . $current[rang] . ' ' . $input_string . '>' . $current[name] . '</option>';
+										<option
+											value=' . ($i + 1) . ' ' . $input_string . '>
+											' . $rang[($i + 1)][name] . '
+										</option>';
 								}
+
+								$output .= '
+									<option>------------------------------------</option>
+									';
+								for ($i = ZUFU; $i < OB; $i++)
+								{
+									if ( ($i + 1) == $rang_new)
+									{
+										$input_string = 'selected';
+									}
+									else
+									{
+										$input_string = '';
+									}
+
+									$output .= '
+										<option
+											value=' . ($i + 1) . ' ' . $input_string . '>
+											' . $rang[($i + 1)][name] . '
+										</option>';
+								}
+
 
 					$output .= '
 									</select>
@@ -346,6 +370,7 @@
 							<tr>
 								<td align=right colspan=2 align=right>
 
+									<input type=hidden name=einheit value=' . $einheit . '>
 									<input type=hidden name=area value=user_edit>
 									<input type=hidden name=id value=' . $id . '>
 									<input type=submit name=submit value="Los">
