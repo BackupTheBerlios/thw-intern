@@ -108,7 +108,7 @@
 								Name
 							</td>
 							<td>
-								<input type=text name=name size=15 value="' . $name . '" onBlur=setAllcapchar(this,true,true)>
+								<input type=text name=name size=15 value="' . $name . '" onBlur="setAllcapchar(this,true,true,\'normal\',false)">
 							</td>
 						</tr>
 						<tr>
