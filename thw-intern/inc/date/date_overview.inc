@@ -20,10 +20,10 @@
 						<tr>
 							<td width=50% valign=top>';
 
-					$sql = "select id, type, begin, end, info from " . DB_DATES . " where unfinished = 0 and begin > " . time() . " order by begin limit 4";
+					$sql = "select id, type, begin, end, info from " . DB_DATES . " where unfinished = 0 and begin > " . time() . " order by begin limit 6";
 					$dates_raw = $db->query($sql);
 
-					$output = 'Dies sind die nächsten 4 Dienste : ';
+					$output = 'Dies sind die nächsten Dienste : ';
 
 					$output .= '
 							<table width=100% align=center border=0 cellspacing=3>
@@ -42,7 +42,7 @@
 					}
 
 					$output .= '</table>';
-					$Box = new Column('Die nächsten 4 Dienste', $output, 0, '99%');
+					$Box = new Column('Die nächsten Dienste', $output, 0, '99%');
 
 
 /*					$output = 'Dies sind die nächsten 4 Dienste deiner Einheit (Diese Auflistung geht nach TZ) : <br><b>noch nicht fertig</b>';
@@ -79,10 +79,10 @@
 							</td>
 							<td valign=top>';
 
-					$output = '...ist<b> ' . strftime('%A</b> der <b>%e.%m.%Y</b>') . '.';
+					$output = ' ... ist <b> ' . strftime('%A</b> der <b>%e.%m.%Y</b>') . '.';
 					$Box = new Column('Heute...', $output, 0, '100%');
 
-					
+
 					////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 					
@@ -105,9 +105,11 @@
 						{
 							// Jetzt schauen wieviele eingetragen sind
 							$sql = "select count(*) as count from " . DB_USERLISTS . " where ref_id = $current[id]";
+							// echo $sql . '<br>';
 							$temp = $db->query($sql);
+							$temp = $db->fetch_array($temp);
 
-							if ($db->num_rows($temp))		// Überhaupt Einträge für den aktuellen Dienst gefunden?
+							if ($temp[count] < $current[anzahl_helfer])
 							{
 								$counter ++;
 								// Wie viele haben wir schon bearbeitet?
@@ -116,10 +118,6 @@
 									break;
 								}
 
-								$temp = $db->fetch_array($temp);
-								// Überprüfen ob der Dienst nicht schon voll ist
-								if ($temp[count] < $current[anzahl_helfer])
-								{
 									$output .= '
 											<tr bgcolor=#F2F5FF>
 												<td style="font-size: 9pt;" width=10%>' . strftime('%e.%m.%Y', $current[begin]) . '</td>
@@ -130,10 +128,11 @@
 												<td style="font-size: 9pt;"><a href="' . $PHP_SELF . '?area=date_view&id=' . $current[id] . '" class=blue>' . $current[info] . '</a></td>
 												<td style="font-size: 9pt;">' . $temp[count] . '/' . $current[anzahl_helfer] . '</td>
 											</tr>';
-								}
+
 							}
 						}
 					}
+
 
 					$output .= '</table>';
 
@@ -169,66 +168,6 @@
 						</tr>
 						<tr>
 							<td colspan=2>';
-
-					$output = '
-							<form action=' . $PHP_SELF . ' method=get>
-								<table width=100% align=center>
-									<tr>
-										<td valign=top align=center>
-											<select size=9 name=id>';
-					$sql = "select * from " . DB_DATES . " where unfinished=0 and begin > " . mktime(0, 1, 1, 1, 1, strftime('%Y')) .  " order by begin";
-					// echo $sql;
-					$dates_raw = $db->query($sql);
-
-					while ($current = $db->fetch_array($dates_raw))
-					{
-
-						if (strlen($current[info]) > 25)
-						{
-									$current[info] = substr($current[info], 0, 25);
-									$current[info] .= '...';
-						}
-						$output .= '<option value=' . $current[id] . ' ' . $insert_string . '>[' . strftime('%e.%m.%Y', $current[begin]) . '] [' . $date_types[$current[type]][name] . '] ' . $current[info] . '</option>';
-					}
-
-					$output .= '
-											</select>
-										</td>
-										<td>
-													<button type=submit name=area value=date_view>betrachten</button>
-													<button type=submit name=area value=date_edit>editieren</button>
-													<button type=submit name=area value=date_delete>löschen</button>
-
-													<input type=checkbox name=post_news value=1 checked> Automatisch in den News melden!
-
-													<table width=100% align=center bgcolor=#F2F5FF>
-														<tr>
-															<td>
-																Benutzer des Internet Explorers bitte diese Buttons benutzen :
-															</td>
-														</tr>
-														<tr>
-															<td>
-																<input type=radio name=area value=date_view default> Termin betrachten <br>
-																<input type=radio name=area value=date_edit> Termin editieren <br>
-																<input type=radio name=area value=date_delete> Termin löschen <br>
-															</td>
-														</tr>
-														<tr>
-															<td align=center>
-																<input type=submit value="Los">
-															</td>
-														</tr>
-													</table>
-											</td>
-										</tr>
-									</table>
-
-
-							</form>';
-
-					$Box = new Column('Terminliste - dieses Jahr (' . strftime('%Y') . ')', $output, 0, '99%');
-
 
 			echo '			</td>
 						</tr>
