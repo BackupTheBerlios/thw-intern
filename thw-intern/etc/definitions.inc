@@ -115,4 +115,66 @@
 		);
 
 
+	// TZ Einheiten
+	define('GA', '1');
+	define('HE', '2');
+	define('TRUFU', '3');
+	define('GRUFU', '4');
+	define('ZTRUFU', '5');
+	define('ZUFU', '6');
+
+	// Stabseinheiten
+	define('VWHE', '7');
+	define('KO', '8');
+	define('SM', '9');
+	define('BOH', '10');
+	define('AB', '11');
+	define('STVOB', '12');
+	define('OB', '13');
+
+	$rang[GA] = array(
+		'name' => 'Grundausbildung',
+		);
+	$rang[HE] = array(
+		'name' => 'Helfer',
+		);
+	$rang[TRUFU] = array(
+		'name' => 'Truppführer',
+		);
+	$rang[GRUFU] = array(
+		'name' => 'Gruppenführer',
+		);
+	$rang[ZTRUFU] = array(
+		'name' => 'Zugtruppführer',
+		);
+	$rang[ZUFU] = array(
+		'name' => 'Zugführer',
+		);
+	$rang[VWHE] = array(
+		'name' => 'Verwaltunghelfer',
+		);
+	$rang[KO] = array(
+		'name' => 'Koch',
+		);
+	$rang[SM] = array(
+		'name' => 'Schirrmeister',
+		);
+	$rang[BOH] = array(
+		'name' => 'Beauftragte(r) für Ö',
+		);
+	$rang[AB] = array(
+		'name' => 'Ausbildungsbeauftragter',
+		);
+	$rang[STVOB] = array(
+		'name' => 'stv. Ortsbeauftragter',
+		);
+	$rang[OB] = array(
+		'name' => 'Ortsbeauftragter',
+		);
+
+
+
+
+
+
 ?>
