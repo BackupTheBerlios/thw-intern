@@ -36,7 +36,8 @@
 			{
 				$error = 0;
 
-				$output = '<form action=' . $PHP_SELF . ' method=post>
+				$output = '	
+							<form action=' . $PHP_SELF . ' method=post>
 								<table width=100% align=center border=0>';
 
 					if ($begin_time AND $begin_date AND $end_time AND $end_date)
@@ -188,7 +189,6 @@
 													einheit='$db_units',
 													unfinished=0,
 													anzahl_helfer=$anzahl_helfer,
-													helfer='$helfer',
 													ort='$ort',
 													kleidung='$kleidung',
 													begin=$db_begin,
