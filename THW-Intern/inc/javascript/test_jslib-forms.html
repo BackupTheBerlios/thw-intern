@@ -1,0 +1,198 @@
+<html>
+<head>
+<script type="application/x-javascript" language="JavaScript1.2" src="norightclickpic.js"></script>
+</head>
+
+<body onLoad="setFirstfocus(firstform)">
+
+<script type="application/x-javascript" language="JavaScript1.2" src="jslib-general.js"></script>
+<script type="application/x-javascript" language="JavaScript1.2" src="jslib-forms_commented.js"></script>
+
+<p>
+<center>
+  <img src="welcome.gif" border=0>
+  <br>
+  <h2>Formulartest für jslib-forms.js</h2> <br>
+  Version 1.6 vom 06.08.2003
+</center>
+<br>
+<form action="test_jslib-forms.html" name=firstform>
+<table width="100%" border=1>
+  <tr>
+    <td align=right>
+      Verstecktes Feld:
+    </td>
+    <td align=left>
+      <input type=hidden name=hidden_element value="test" size="30">
+    </td>
+    <td align=left>
+      <i>--</i>
+    </td>
+  </tr>
+  <tr>
+    <td align=right>
+      Anfangsdatum (mit Uhrzeit):
+    </td>
+    <td align=left>
+      <input type=text name=date_begin size="30">
+    </td>
+    <td align=left>
+      <i>--</i>
+    </td>
+  </tr>
+  <tr>
+    <td align=right>
+      Enddatum (mit Uhrzeit):
+    </td>
+    <td align=left>
+      <input type=text name=date_end size="30" onFocus="getBegindate(firstform.date_begin,this,'time_force',true,'now')" onBlur="chkDate(this,'time_force',true,firstform.date_begin.value)">
+    </td>
+    <td align=left>
+      <i>getBegindate(), chkDate() mit Option 'time_force' und mindate=now sowie Rangecheck</i>
+    </td>
+  </tr>
+  <tr>
+    <td align=right>
+      Geburtsdatum (ohne Uhrzeit):
+    </td>
+    <td align=left>
+      <input type=text name=date_birth size="30" onBlur="chkDate(this,'time_purge',false)">
+    </td>
+    <td align=left>
+      <i>chkDate() mit Option 'time_purge' ohne Rangecheck</i>
+    </td>
+  </tr>
+  <tr>
+    <td align=right>
+      Alarmierungszeit (Uhrzeit optional, aber in der Zukunft):
+    </td>
+    <td align=left>
+      <input type=text name=date_alarm size="30" onBlur="chkDate(this,'time_allow',true,'now')">
+    </td>
+    <td align=left>
+      <i>chkDate() mit Option 'time_allow' und Rangecheck</i>
+    </td>
+  </tr>
+  <tr>
+    <td align=right>
+      eMail-Adresse:
+    </td>
+    <td align=left>
+      <input type=text name=emailadr size="30" onBlur="chkMailaddress(this)">
+    </td>
+    <td align=left>
+      <i>chkMailaddress()</i>
+    </td>
+  </tr>
+  <tr>
+    <td align=right>
+      Anzahl benötigter Helfer für Dienst (>0):
+    </td>
+    <td align=left>
+      <input type=text name=slotanz size="30" onBlur="chkNum(this,false)">
+    </td>
+    <td align=left>
+      <i>chkNum(), '0' ist unzulässig</i>
+    </td>
+  </tr>
+  <tr>
+    <td align=right>
+      Anzahl qualifizierter Zugführer:
+    </td>
+    <td align=left>
+      <input type=text name=slotanz2 size="30" onBlur="chkNum(this,true)">
+    </td>
+    <td align=left>
+      <i>chkNum(), '0' ist zulässig</i>
+    </td>
+  </tr>
+  <tr>
+    <td align=right>
+      Zahl (von 2 bis 8):
+    </td>
+    <td align=left>
+      <input type=text name=number size="30" onBlur="chkNumval(this,2,8)">
+    </td>
+    <td align=left>
+      <i>chkNumval()</i>
+    </td>
+  </tr>
+  <tr>
+    <td align=right>
+      Vorname:
+    </td>
+    <td align=left>
+      <input type=text name=vorname size="30" onBlur="setFirstcapchar(firstform.vorname,true,'paranoid',false)">
+    </td>
+    <td align=left>
+      <i>setFirstcapchar(); chkString() mit Char-Prüfung 'paranoid' ohne Ziffern</i>
+    </td>
+  </tr>
+  <tr>
+    <td align=right>
+      Name:
+    </td>
+    <td align=left>
+      <input type=text name=name size="30" onBlur="setAllcapchar(firstform.name,true,true,'normal',false)">
+    </td>
+    <td align=left>
+      <i>setAllcapchar(); chkString() mit Char-Prüfung 'normal' ohne Ziffern</i>
+    </td>
+  </tr>
+  <tr>
+    <td align=right>
+      Freitext:
+    </td>
+    <td align=left>
+      <textarea name=kommentar cols="25" rows="3" onBlur="chkString(this,'poor',true)"></textarea>
+    </td>
+    <td align=left>
+      <i>chkString() mit Char-Prüfung 'poor' mit Ziffern</i>
+    </td>
+  </tr>
+  <tr>
+    <td align=right>
+      Formularinhalte löschen:
+    </td>
+    <td align=center>
+      <input type=reset value="Zurücksetzen" onClick="doFormreset(firstform)">
+    </td>
+    <td align=left>
+      <i>doFormreset()</i>
+    </td>
+  </tr>
+  <tr>
+    <td align=right>
+       Sprache ändern (FM):
+    </td>
+    <td align=center>
+      <input type=button value="Deutsch" onClick="setLanguage(0)">
+      <input type=button value="English" onClick="setLanguage(1)">
+    </td>
+    <td align=left>
+      <i>setLanguage()</i>
+    </td>
+  </tr>
+  <tr>
+    <td colspan=2 align=center>
+      Dokument
+      <script language="javascript">
+        getDocdate(true)
+      </script>
+    </td>
+    <td align=left>
+      <i>getDocdate()</i>
+    </td>
+  </tr>
+</table>
+</form>
+<p>
+<p>
+<script language="javascript">
+<!--
+  getBrowserinfo(1)
+//-->
+</script>
+</body>
+
+</html>

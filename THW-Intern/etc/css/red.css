@@ -1,0 +1,248 @@
+/*
+	+++++++++++++++++++++++++++++++++++++++++++++++++++
+	einige allgemeine Klassen
+	+++++++++++++++++++++++++++++++++++++++++++++++++++
+*/
+
+body {
+	font-family: arial;
+	background-color: white;
+}
+
+a {
+	color: red;
+	text-decoration : none;
+}
+a:hover{
+	text-decoration: underline;
+}
+a:visited {
+	color: red;
+}
+a:active {
+	color: red;
+}
+
+.important {
+	color: #132797;
+	font-weight: normal;
+}
+
+/* Fehlermeldungen werden so dargestellt! */
+.error {
+	color: red;
+}
+
+.ok {
+	color: green;
+}
+
+.warning {
+	color: orange;
+}
+
+.small {
+	font-size: 9pt;
+}
+
+.typewriter {
+	font-family: monospace;
+}
+
+
+/*
+	+++++++++++++++++++++++++++++++++++++++++++++++++++
+	Definitionen für Tabellen
+	+++++++++++++++++++++++++++++++++++++++++++++++++++
+*/
+
+/* Allgemeine Eigenschaften für Listentabellen */
+.list_table {
+	font-size: 9pt;
+	background-color: white;
+}
+
+/* Tableheader... */
+.list_table th {
+	font-size: 9pt;
+	font-weight: bold;
+}
+
+.list_table_active {
+	background-color: #FFF3F6;
+}
+
+
+.list_table_important {
+	background-color: #FEEEEE;
+}
+
+.list_table_less_important {
+	background-color: #E7FEEB;
+}
+
+
+/* Inaktive Beiträge */
+.list_table_inactive {
+	font-size: 9pt;
+	background-color: #F2F2F2;
+	color: gray;
+}
+
+/*
+	+++++++++++++++++++++++++++++++++++++++++++++++++++
+	Definitionen für das Haupt- und Submenue!
+	+++++++++++++++++++++++++++++++++++++++++++++++++++
+*/
+
+/*	Hauptmenü: Hintergrund- und Schriftfarbe und Schriftgröße  	*/
+.main_menubar {
+	background-color: #FFD1D1;
+	font-size: 9pt;
+}
+.main_menubar a {
+	color: red;
+}
+.main_menubar a:hover {
+	color: darkred;
+	text-decoration: none;
+	font-weight: bold
+}
+
+
+/*	Hauptmenü: der jeweils aktive Punkt des Hauptmenüs  	*/
+.main_menubar .active {
+	font-weight: bold;
+}
+
+/*	Submenü: Hintergrund- und Schriftfarbe und Schriftgröße  	*/
+.sub_menubar {
+	background-color: white;
+	color: red;
+	font-size: 8pt;
+}
+.sub_menubar a {
+	color: red;
+}
+.sub_menubar a:hover {
+	color: darkred;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+.sub_menubar .active {
+	font-weight: bold;
+}
+
+/*
+	+++++++++++++++++++++++++++++++++++++++++++++++++++
+	Hier sind die Definitionen für die Dialogboxen!
+	+++++++++++++++++++++++++++++++++++++++++++++++++++
+*/
+
+
+/*	Der Rand der Dialogbox 	*/
+.dialog_box_border {
+	background-color: black;
+}
+
+/*	Das Feld das den Inhalt an sich enthält 	*/
+.dialog_box_content {
+	background-color:white;
+	font-family: arial;
+}
+.dialog_box_content a {
+	color: red;
+	font-size: 9pt;
+
+}
+.dialog_box_content a:hover {
+	color: darkred;
+	font-size: 9pt;
+	text-decoration: none;
+}
+
+/*	Titelbalken 	*/
+.dialog_box_titlebar {
+	background-color: #BE2424;
+	color: white;
+	font-family: arial;
+}
+
+/*	Menübalken 	*/
+.dialog_box_menubar {
+	background-color: #FFD3D4;
+	font-family: arial;
+}
+.dialog_box_menubar a {
+	color: red;
+	font-size: 9pt;
+}
+
+/*	Der Kasten mit der Nachricht 	*/
+.dialog_box_message {
+	font-size: 11pt;
+	text-align: justify;
+	padding-left: 5pt;
+	padding-right: 5pt;
+	padding-top: 5pt;
+	padding-bottom: 10pt;
+}
+.dialog_box_message a {
+	color: red;
+}
+
+/*	Das Menü rechts unten 	*/
+.dialog_box_bottommenu {
+	font-size: 11pt;
+	text-align: right;
+}
+.dialog_box_bottommenu a {
+	color: red;
+}
+
+
+
+/*
+	+++++++++++++++++++++++++++++++++++++++++++++++++++
+	Hier sind die Definitionen für die Formulare!
+	+++++++++++++++++++++++++++++++++++++++++++++++++++
+*/
+
+/*	Die Tabelle die das gesamte Formular enthält 	*/
+.form {
+	background-color: white;
+}
+
+/*	Felder die nach Eingabe als ausgefüllt und in Ordnung befunden wurden werden so formatiert 	*/
+.form_ready {
+	color: green;
+	background-color: #FEEEEE;
+	text-align: right;
+}
+
+/*	Felder die nach Eingabe einen Fehler enthalten 	*/
+.form_error {
+	color: red;
+	background-color: #FEEEEE;
+	text-align: right;
+}
+
+/*	Felder die wichtig sind werden so dargestellt 	*/
+.form_important {
+	color: red;
+	background-color: #FEEEEE;
+	text-align: right;
+}
+
+/*	normale Felder, die nicht als wichtig markiert wurden und noch ohne Inhalt sind 	*/
+.form_default {
+	background-color: #FEEEEE;
+	text-align: right;
+}
+
+.form_inactive {
+	font-size: 9pt;
+	background-color: #F2F2F2;
+	color: gray;
+}

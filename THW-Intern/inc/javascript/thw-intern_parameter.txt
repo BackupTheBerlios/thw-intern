@@ -1,0 +1,14 @@
+Empfohlene Parameter für jslib-forms bei Verwendung auf "THW-intern"
+
+Feldbeschreibung         Funktion/Parameter
+---------------------------------------------------------------------------------------------------------------
+Login-ID                 onBlur="setAllcapchar(this,true,true,'normal',true)"
+date_begin               --
+date_end                 onFocus="getBegindate(firstform.date_begin,this,'time_force',true,'now')"
+                         onBlur="chkDate(this,'time_force',true,firstform.date_begin.value)"
+date_birth               onBlur="chkDate(this,'time_purge',false)"
+mailaddress              onBlur="chkMailaddress(this)"
+slotanz                  onBlur="chkNum(this,false)"   oder
+                         onBlur="chkNumval(this,1,28)"
+lastname                 onBlur="setAllcapchar(this,true,true,'normal',false)"
+name                     onBlur="setFirstcapchar(this,true,'normal',false)"
