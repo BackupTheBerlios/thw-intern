@@ -28,10 +28,10 @@
 						$sql = "select count(*) as count_new from " . DB_FORUM . " where forum_id = $current[forum_id] and unfinished = 0 and unix_timestamp(date) > $user_last_login";
 						$count_new = $db->fetch_array($db->query($sql));
 
-// 						if (!$count_new[count_new])
-// 						{
-// 							$count_new[count_new] = 0;
-// 						}
+						if (!$count_new[count_new])
+						{
+							$count_new[count_new] = '';
+						}
 
 						$sql = "select count(*) as count_threads from " . DB_FORUM . " where forum_id = $current[forum_id] and unfinished = 0 and ref_id = 0";
 						$count_threads = $db->fetch_array($db->query($sql));
