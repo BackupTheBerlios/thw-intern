@@ -12,11 +12,26 @@ function yesno($value)
 	}
 }
 
+function reserve_id_reports($db)
+{
+
+	$sql = "insert into " . DB_REPORTS . " (begin, end, unfinished, public) values
+								(" . time() . ", " . time() . ", 1, 0)";
+
+	$db->query($sql);
+
+	$tmp = $db->fetch_array($db->query("select last_insert_id() as last_id"));
+
+	return($tmp[last_id]);
+}
+
+
 function reserve_id($db)
 {
 
 	$sql = "insert into " . DB_DATES . " (begin, end, unfinished) values
 								(" . time() . ", " . time() . ", 1)";
+
 	$db->query($sql);
 
 	$tmp = $db->fetch_array($db->query("select last_insert_id() as last_id"));
