@@ -21,7 +21,7 @@
 					<table width=95% align=center>
 						<tr>
 							<td width=50% valign=top>';
-							
+
 					$output = '<form action=' . $PHP_SELF . ' method=get><input type=hidden name=id value=' . $user_id . '><button type=submit name=area value=user_edit>Mein Account</button></form> Hier kannst du deinen Account editieren.';
 					$UserListe = new Column('Mein Account', $output, 0, '99%');
 
@@ -98,33 +98,6 @@
 													<button type=submit name=area value=user_edit>editieren</button>
 													<button type=submit name=area value=user_delete>löschen</button>
 
-													<table width=100% align=center bgcolor=#F2F5FF>
-														<tr>
-															<td>
-																Benutzer des Internet Explorers bitte diese Buttons benutzen* :
-															</td>
-														</tr>
-														<tr>
-															<td>
-																<input type=radio checked name=area value=user_view> User betrachten <br>
-																<input type=radio name=area value=user_edit> User editieren <br>
-																<input type=radio name=area value=user_delete> User löschen <br>
-															</td>
-														</tr>
-														<tr>
-															<td align=center>
-																<input type=submit value="Los">
-															</td>
-														</tr>
-													</table>
-													<table width=100% align=center bgcolor=#F2F5FF>
-														<tr>
-															<td>
-																<b>*</b> Dieses Extra-Feld war nötig da der Internet Explorer in allen aktuellen
-																Versionen den Standard-HTML-Tag &lt;button&gt; nicht unterstützt.
-															</td>
-														</tr>
-													</table>
 
 												</td>
 											</tr>
