@@ -1,0 +1,62 @@
+td
+{
+	font-family: arial;
+	font-size: 11pt;
+}
+
+.bar.a
+{
+	color: #CCCFFF;
+}
+
+.bar
+{
+	background-color: #000080;
+	color: white;
+	font-weight: bold;
+}
+
+.footer
+{
+	text-align: center;
+	font-size: 10pt;
+}
+
+.BACKGROUND
+{
+	background-color:  #EEF0FE;
+}
+
+.IB_BORDER
+{
+	background-color: #000000;
+}
+
+.IB_BACKGROUND
+{
+	background-color: #FFFFFF;
+}
+
+
+.IB_TITLEBAR
+{
+	background-color: #000080;
+	color: #FFFFFF;
+	font-weight: bold;
+	font-size: 13pt;
+}
+
+.red
+{
+	color: red;
+}
+
+.blue
+{
+	color: #0000C0;
+}
+
+.green
+{
+	color: green;
+}
