@@ -1,6 +1,7 @@
 <?php
 
 	require('etc/system.inc');			// Systemweite Einstellungen laden
+	require('etc/database.inc');			// Wo ist die Datenbank, wie ist der Login dazu?
 	require('etc/definitions.inc');			// Definitionen laden
 	require('inc/classes.inc');			// OOP-Klassen laden
 	require('inc/functions.inc');			// diverse Funktionen
@@ -8,8 +9,10 @@
 	// Datenbankobjekt anlegen!
 	$db = new Database();
 
+	// Deutsches Layout für Datumsangaben
 	setlocale (LC_ALL, 'de_DE');
 
+	// Query-counter, wie viele SQL-Queries?
 	$GLOBALS[query_count] = 0;
 
 	session_name('THW-INTERN');
@@ -27,9 +30,9 @@
 		// Ein user möchte sich anmelden!
 		case 'auth':
 
-				if ($login)
+				if ($login)		// Der user hat etwas eingegeben -> überprüfen
 				{
-					if ($password)
+					if ($password)		// Hat er ein passwort eingegeben?
 					{
 						$sql = "select v_name, n_name, id, password, last_login from " . DB_USERS . " where login_name='$login'";
 
@@ -45,8 +48,8 @@
 
 								if ($current_user[password] == $password)		// Passwort überprüfen
 								{
-									setcookie("user_id", $current_user[id], time() + (3600 * 24 * 30));
-									setcookie("user_password", urlencode(md5($current_user[password])), time() + (3600 * 24 * 30));
+									setcookie("user_id", $current_user[id]);
+									setcookie("user_password", urlencode(md5($current_user[password])));
 
 									session_name('THW-INTERN');
 									session_start();
@@ -94,7 +97,9 @@
 					header("Location: $GLOBALS[PHP_SELF]?area=login&login=$login&message=$message");
 					exit;
 				}
+
 			break;
+
 		case 'forgotten_pass':		// Ein User der sein Passwort zugestellt haben möchte!
 
 			$LoginSeite = new Page('Vergessenes Passwort', '', 0, DEFAULT_STYLESHEET, $db, 0);
@@ -376,12 +381,9 @@ Der Admin
 
 			$StartSeite->html_header();
 
-							// function Infobox($title, $message, $options, $width = 0, $class = '')
-
 							// Zuerst alle User herausfiltern die noch als online vermerkt sind, aber sich seit dem Timeout nicht mehr gerührt haben!
 							$sql = "update " . DB_USERS . " set online = 0, last_login = last_action where online=1 and (last_action + " . TIMEOUT . ") < " . time() . "";
 							$db->query($sql);
-
 
 							// User herausfiltern die online sind!
 							$sql = "select count(*) as count from " . DB_USERS . " where online=1";
@@ -390,31 +392,28 @@ Der Admin
 							// News rausfiltern die seit dem letzten Login erstellt wurden
 							$sql = "select count(*) as count from " . DB_NEWS . " where unfinished=0 and unix_timestamp(date) > $user_last_login";
 							$new_news = $db->fetch_array($db->query($sql));
-							
+
 							// Neue Forenbeiträge herausfiltern
 							$sql = "select count(*) as count from " . DB_FORUM . " where unfinished=0 and unix_timestamp(date) > $user_last_login";
 							$new_postings = $db->fetch_array($db->query($sql));
 
 							// Willkommensnachricht erstellen
-							$message = 'Hallo ' . $user_v_name . ' ' . $user_n_name . '! Dein letzter Login war am 
-									<b>' . strftime('%e.%m.%Y', $user_last_login) . '</B> um <b>' . strftime('%H:%M', $user_last_login) . '</b>. 
-									Es sind momentan <b>' . $online[count]. '</b> User online. Seit deinem letztem Login wurden 
-									<b>' . $new_news[count] . '</b> News gepostet! Es wurden <b>' . $new_postings[count] . '</b> 
+							$message = 'Hallo ' . $user_v_name . ' ' . $user_n_name . '! Dein letzter Login war am
+									<b>' . strftime('%e.%m.%Y', $user_last_login) . '</B> um <b>' . strftime('%H:%M', $user_last_login) . '</b>.
+									Es sind momentan <b>' . $online[count]. '</b> User online. Seit deinem letztem Login wurden
+									<b>' . $new_news[count] . '</b> News gepostet! Es wurden <b>' . $new_postings[count] . '</b>
 									neue Beiträge im Forum gepostet.';
 
 							$box = new Column('Willkommen im Internen Bereich', $message, 0, '99%');
 
-
-							$message = 'Folgende Module sind bereits fertig gestellt : ';
-
-							$message .= '
-												<table width=100% align=center border=0 cellspacing=0 cellpadding=5>
-													<tr>
+							$message = '
+												<table width=100% align=center border=0 cellspacing=2 cellpadding=3>
+													<tr bgcolor=#F2F5FF>
 														<td>
 															<a href=' . $PHP_SELF . '?area=news_archive class=blue>News</a>
 														</td>
-														<td class=green>
-															Hier werden die News gesammelt, gelesen und hinzugefügt!
+														<td>
+															Hier werden News gesammelt und verwaltet.
 														</td>
 													</tr>
 													<tr>
@@ -423,31 +422,29 @@ Der Admin
 														</td>
 														<td>
 															Terminverwaltung
-															<br>[bereits fertig : date_overview, date_view, date_delete, date_create]
 														</td>
 													</tr>
-													<tr>
+													<tr bgcolor=#F2F5FF>
 														<td>
 															<a href=' . $PHP_SELF . '?area=user class=blue>Userverwaltung</a>
 														</td>
 														<td>
 															Die Userverwaltung<br>
-																[bereits fertig : user_overview, user_view, user_create, user_delete]
 														</td>
 													</tr>
 													<tr>
 														<td>
 															<a href=' . $PHP_SELF . '?area=forum_overview class=blue>Forum</a>
 														</td>
-														<td class=green>
-															Zum Forum... (evtl noch etwas Feintarbeit)
+														<td>
+															Zum Forum
 														</td>
 													</tr>
-													<tr>
+													<tr bgcolor=#F2F5FF>
 														<td>
 															<a href=' . $PHP_SELF . '?area=report_overview class=blue>Berichte</a>
 														</td>
-														<td class=green>
+														<td>
 															Hier werden Berichte verwaltet und gelesen.
 														</td>
 													</tr>
@@ -455,16 +452,16 @@ Der Admin
 														<td>
 															<a href=' . $PHP_SELF . '?area=photo_overview class=blue>Photogalerie</a>
 														</td>
-														<td class=green>
+														<td>
 															Hier werden Photos verwaltet und betrachtet.
 														</td>
 													</tr>
-													<tr>
+													<tr bgcolor=#F2F5FF>
 														<td>
 															<a href=' . $PHP_SELF . '?area=motm class=blue>Spruch des Monats</a>
 														</td>
-														<td class=green>
-															Sprüche des Monats werden hier gesammelt und verwaltet! (evtl. noch etwas Feinarbeit)
+														<td>
+															Sprüche des Monats werden hier gesammelt und verwaltet
 														</td>
 													</tr>
 													<tr>
@@ -473,84 +470,54 @@ Der Admin
 														</td>
 														<td>
 															Administration
-																<br>[bereits fertig : admin_permissions_overview, admin_permissions_edit, admin_permissions_add]
 														</td>
 													</tr>
 												</table>';
-							$box->Column('Module', $message, 0, '99%');
+							$box->Column('Bereiche', $message, 0, '99%');
 
 			echo '			</td>
 							<td align=center valign=top>';
 
 							// Erst mal schauen ob überhaupt was für diesen Monat vorliegt...
 							$sql = "select * from " . DB_REPORTS . " where type >= 256 and begin >= " . mktime(0, 0, 0, strftime('%m'), 0, strftime('%Y')) . " and begin < " . mktime(0, 0, 0, (strftime('%m') + 1), 0, strftime('%Y')) . " order by begin, create_date desc";
-							 echo $sql;
 
-							$raw = $db->query($sql);
-							$count = $db->num_rows($raw);
-							$prefix = PHOTO_LOCATION . 'motm/';
-
-							if ($count)
-							{
-								// Zufällig eins auswählen!
-
-								for ($i = 0; $i < $count; $i++)
-								{
-										$current = $db->fetch_array($raw);
-										$zufall = rand(0, 5);
-
-										if ($zufall > 2)		// Du bist dabei!!!! (o:
-										{
-											// Schauen ob ein Bild dabei ist...
-
-											if (file_exists($prefix . $current[id] . '.jpg'))
-											{		// Bild ist dabei!
-
-												$output .= '<img src="' . $prefix . $current[id] . '_thumb.jpg">';
-											}
-
-											$output .= '<h3>"' . $current[report]. '"</h3>';
-
-											break;
-									}
-								}
-
-								if (!$output)
-								{
-									if (file_exists($prefix . $current[id] . '.jpg'))
-									{		// Bild ist dabei!
-
-										$output .= '<img src="' . $prefix . $current[id] . '_thumb.jpg">';
-									}
-
-									$output .= '<h3>"' . $current[report]. '"</h3>';
-								}
-
-								$menu = array();
-								$menu[0][text] = 'Archiv';
-								$menu[0][link] = "$PHP_SELF?area=motm";
-								$menu[1][text] = 'Spruch hinzufügen';
-								$menu[1][link] = "$PHP_SELF?area=motm_add";
-								$box = new Column('Spruch/Bild des Monats', $output, $menu, '99%');
-							}
-
-							$message = '';
+							$message = '
+									<table width=100% align=center border=0 cellspacing=1 cellpadding=1>
+									';
 							$sql = "select id, heading, message, creator, unix_timestamp(date) as date from " . DB_NEWS . " where unfinished=0 order by date desc limit " . NEWS_PER_PAGE;
 							$tmp = $db->query($sql);
 							while ($news = $db->fetch_array($tmp))
 							{
-								if (strlen($news[message]) > 100)
+								if (strlen($news[message]) > 150)
 								{
-									$text = substr($news[message], 0, 100);
+									$text = substr($news[message], 0, 150);
 									$text .= '... [<a href=' . $PHP_SELF . '?area=news_read&read=' . $news[id] . ' class=blue>mehr</a>]';
 								}
 								else
 								{
 									$text = $news[message];
 								}
-								$message .= '<a href=' . $PHP_SELF . '?area=news_read&read=' . $news[id] . ' class=blue><h3>' . $news[heading] . '</h3></a><i>'. strftime('%e.%m.%Y %H:%M', $news[date]) . ', von ' . $StartSeite->user_link($news[creator]) . ' : </i><br>' . $text . '<br>';
+								$message .= '
+										<tr>
+											<td bgcolor=#F2F5FF>
+												<a href=' . $PHP_SELF . '?area=news_read&read=' . $news[id] . ' class=blue>
+													<h3>
+														' . $news[heading] . '
+													</h3>
+												</a>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<i>'. strftime('%e.%m.%Y %H:%M', $news[date]) . ', von ' . $StartSeite->user_link($news[creator]) . ' : </i><br>' . $text . '<br>
+											</td>
+										</tr>';
+
 							}
 
+							$message .= '
+									</table>
+									';
 
 							$menu = array();
 							$menu[0][text] = 'Archiv';
