@@ -51,7 +51,7 @@ class Session
 	function Session()
 	{
 		global $log;
-		$log->add_to_log('Session::Session()', 'Constructor called!', 'debug');
+		// $log->add_to_log('Session::Session()', 'Constructor called!', 'debug');
 
 		if (session_is_registered('USER_DATA'))
 		{
@@ -87,7 +87,7 @@ class Session
 	function load_userdata($id)
 	{
 		global $log, $db;
-		$log->add_to_log('Session::load_userdata()', 'load_userdata(' . $id . ') called!!', 'debug');
+		// $log->add_to_log('Session::load_userdata()', 'load_userdata(' . $id . ') called!!', 'debug');
 
 		$sql = '
 				select
@@ -275,7 +275,7 @@ class Session
 	function check_session()
 	{
 		global $log, $db;
-		$log->add_to_log('Session::check_session()', 'check_session() called!', 'debug');
+		// $log->add_to_log('Session::check_session()', 'check_session() called!', 'debug');
 
 		/*******************************************************************************
 		* Prüfen ob wir überhaupt ne User-ID haben:
