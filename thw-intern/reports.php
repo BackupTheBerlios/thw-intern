@@ -1,10 +1,10 @@
 <?php
-
 	require('etc/system.inc');			// Systemweite Einstellungen laden
+	require('etc/database.inc');			// Wo ist die Datenbank, wie ist der Login dazu?
 	require('etc/definitions.inc');			// Definitionen laden
 	require('inc/classes.inc');			// OOP-Klassen laden
 	require('inc/functions.inc');			// diverse Funktionen
-
+	
 	// Datenbankobjekt anlegen!
 	$db = new Database();
 
