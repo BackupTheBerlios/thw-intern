@@ -191,7 +191,8 @@ Der Admin
 												</td>
 											</tr>
 										</table>
-									</form>'
+									</form>
+									'
 											, 0);
 
 			$LoginSeite->html_footer();
@@ -277,6 +278,10 @@ Der Admin
 		case 'date_edit':
 			require('inc/date/date_edit.inc');
 			break;
+		case 'date_training':
+			require('inc/date/date_training.inc');
+			break;
+
 
 		/*
 			Die Administration
@@ -418,7 +423,7 @@ Der Admin
 													</tr>
 													<tr>
 														<td>
-															<a href=' . $PHP_SELF . '?area=date_overview class=blue>Terminverwaltung</a>
+															<a href=' . $PHP_SELF . '?area=date_overview class=blue>Termine</a>
 														</td>
 														<td>
 															Terminverwaltung
@@ -426,10 +431,10 @@ Der Admin
 													</tr>
 													<tr bgcolor=#F2F5FF>
 														<td>
-															<a href=' . $PHP_SELF . '?area=user class=blue>Userverwaltung</a>
+															<a href=' . $PHP_SELF . '?area=date_training class=blue>Ausbildung</a>
 														</td>
 														<td>
-															Die Userverwaltung<br>
+															Hier werden vom AB Lehrgänge veröffentlich und Helfer können sich eintragen
 														</td>
 													</tr>
 													<tr>
@@ -458,10 +463,10 @@ Der Admin
 													</tr>
 													<tr bgcolor=#F2F5FF>
 														<td>
-															<a href=' . $PHP_SELF . '?area=motm class=blue>Spruch des Monats</a>
+															<a href=' . $PHP_SELF . '?area=user class=blue>User</a>
 														</td>
 														<td>
-															Sprüche des Monats werden hier gesammelt und verwaltet
+															Die Userverwaltung<br>
 														</td>
 													</tr>
 													<tr>
