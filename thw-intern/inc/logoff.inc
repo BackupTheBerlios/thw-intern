@@ -1,4 +1,5 @@
 <?php
+			// Login-Cookies löschen
 			setcookie ("user_password", "", time() - 3600);
 			setcookie ("user_id", "", time() - 3600);
 
