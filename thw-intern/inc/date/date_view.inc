@@ -139,7 +139,7 @@
 							Kommentar :
 						</td>
 						<td bgcolor=#F2F5FF  style="font-weight: bold;">
-							' . $current[comment] . '
+							' . nl2br($current[comment]) . '
 						</td>
 					</tr>
 				';
@@ -192,6 +192,22 @@
 							}
 							else
 							{
+								if ($current_helfer[user_id] == $user_id )
+								{
+									$temp_string .= '
+										<tr>
+											<td class=green>
+												'.
+												$current_helfer[n_name] . ' ' . $current_helfer[v_name] . '
+											</td>
+											<td class=green>
+												' . $current_helfer[comment] . '
+											</td>
+										</tr>
+										';
+								}
+								else
+								{
 									$temp_string .= '
 										<tr>
 											<td>
@@ -203,6 +219,7 @@
 											</td>
 										</tr>
 										';
+								}
 							}
 						}
 
@@ -215,7 +232,7 @@
 							';
 						while ( $current_helfer = $db->fetch_array($helfer) )
 						{
-							if ( $admin )		
+							if ( $admin )
 							{
 								$temp_string .= '
 									<a href="' . $PHP_SELF . '?area=date_view&id=' . $id . '&remove_user=' . $current_helfer[user_id] . '" class=blue>' .
@@ -224,11 +241,21 @@
 							}
 							else
 							{
-								$temp_string .= '
-									' .
-									$current_helfer[n_name] . ' ' . $current_helfer[v_name] . ',
-								';
-
+								if ($current_helfer[user_id] == $user_id )
+								{
+									$temp_string .= '
+										<b class=green>' .
+										$current_helfer[n_name] . ' ' . $current_helfer[v_name] . ',
+										</b>
+									';
+								}
+								else
+								{
+									$temp_string .= '
+										' .
+										$current_helfer[n_name] . ' ' . $current_helfer[v_name] . ',
+									';
+								}
 							}
 						}
 						$temp_string .= '
@@ -356,11 +383,25 @@
 					</tr>
 					';
 			}
+			
+			$sql = "select v_name, n_name from " . DB_USERS . " where id=$current[creator]";
+			$creator = $db->fetch_array($db->query($sql));
+			$output .= '
+				<tr>
+					<td style="font-size: 9pt;">
+						Erstellt :
+					</td>
+					<td bgcolor=#F2F5FF style="font-weight: bold;">
+						von <a href="' . $PHP_SELF . '?area=user_view&id=' . $current[creator]. '" class=blue>
+							' . $creator[v_name] . ' ' . $creator[n_name] . '
+						</a>, am ' . strftime('%e.%m.%Y %H:%M', $current[new_date]) . '
+					</td>
+				</tr>
+				';
 
 			$output .= '
 				</table>
 				';
-
 
 
 			echo '<br>';
