@@ -105,6 +105,22 @@
 					KEY date_create (date_create,date_lastviewed)
 				) TYPE=MyISAM
 			';
+	$databases[tb_messages] = '	
+                	CREATE TABLE tb_messages (
+                      id int(11) NOT NULL auto_increment,
+                      tb_messages.from int(11) NOT NULL default \'0\',
+                      tb_messages.to int(11) NOT NULL default \'0\',
+                      subject varchar(200) NOT NULL default \'\',
+                      message text NOT NULL,
+                      type tinyint(4) NOT NULL default \'0\',
+                      date timestamp(14) NOT NULL,
+                      flags int(11) NOT NULL default \'0\',
+                      PRIMARY KEY  (id),
+                      KEY type (type),
+                      KEY date (date),
+                      KEY flags (flags)
+                    ) TYPE=MyISAM
+			';
 	
 	$databases[tb_guestbook] = ' 
 				CREATE TABLE tb_guestbook (
@@ -204,6 +220,7 @@
 					kommentar text NOT NULL,
 					flag_edit tinyint(4) NOT NULL default \'0\',
 					flag_kueche tinyint(4) NOT NULL default \'0\',
+					kleidung tinyint(4) NOT NULL default \'1\',
 					PRIMARY KEY  (id),
 					KEY ref_object_id (ref_object_id,terminart),
 					KEY flag_kueche (flag_kueche)
