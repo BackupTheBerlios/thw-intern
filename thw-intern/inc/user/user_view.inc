@@ -1,21 +1,5 @@
 <?php
 
-function unit_string($db, $id, $string)
-{
-	$sql = "select name, ref_id from " . DB_UNITS . " where id=$id";
-	//  echo $sql;
-	$current = $db->fetch_array($db->query($sql));
-
-	$string = $current[name] . ', ' .  $string;
-
-	if ($current[ref_id])
-	{
-		$string = unit_string($db, $current[ref_id], $string);
-	}
-	return($string);
-}
-
-
 			$User = new Page('User betrachten', $area, $GLOBALS[user_id], DEFAULT_STYLESHEET, $db, 1);
 			$User->html_header();
 
@@ -38,22 +22,7 @@ function unit_string($db, $id, $string)
 
 			if ($db->num_rows($tmp))
 			{
-				echo '<table width=98% align=center>';
 				$result = $db->fetch_array($tmp);
-				echo "<tr><td width=30% align=right>Loginname : </td><td><b>$result[login_name]</td></b></tr>";
-				echo "<tr><td align=right>Vorname : </td><td><b>$result[v_name]</td></b></tr>";
-				echo "<tr><td align=right>Nachname : </td><td><b>$result[n_name]</td></b></tr>";
-				echo "<tr><td align=right>Geburtstag : </td><td><b>";
-					if ($result[birth] > 0)
-					{
-						echo strftime("%e.%m.%Y" ,$result[birth]);
-					}
-					echo  "</td></b></tr>";
-
-				echo '<tr><td><br></td></tr>';
-
-				echo "<tr><td align=right>Email : </td><td><a href='mailto:$result[email]' class=blue>$result[email]</a></td></tr>";
-				echo "<tr><td align=right>Homepage : </td><td><a href='$result[homepage]' class=blue>$result[homepage]</a></td></tr>";
 
 				if (!$result[icq])
 				{
@@ -63,21 +32,181 @@ function unit_string($db, $id, $string)
 				{
 					$icq = $result[icq];
 				}
-				echo "<tr><td align=right>ICQ : </td><td><b>$icq</b></td></tr>";
 
-				echo '<tr><td><br></td></tr>';
 
-				$sql = "select name from " . DB_RANG . " where rang=$result[rang]";
-				$rang = $db->fetch_array($db->query($sql));
-				echo "<tr><td align=right>Rang : </td><td><b>$rang[name]</b></td></tr>";
-				echo "<tr><td align=right>Funktion : </td><td><b></b></td></tr>";
 
-				$einheit = unit_string($db, $result[einheit], $string);
-				echo "<tr><td align=right>Einheit : </td><td><b>$einheit</b></td></tr>";
 
-				echo '<tr><td><br></td></tr>';
-				echo "<tr><td align=right>Last action : </td><td><b>" . strftime('%H:%M:%S', $result[last_action]) . "</b></td></tr>";
-				echo '</table>';
+
+				function einheit_string ( $unit_id, $units, &$found,  $depth = 0)
+				{
+					if ($found)
+					{
+						break;
+					}
+
+					$depth++;
+					$indent = str_repeat ('&nbsp;&nbsp;&nbsp;&nbsp;', $depth);
+
+					for ( $i = 0; $i < count($units); $i++ )
+					{
+
+						echo $indent . '[' . $depth . '] pass # ' . $i . ' - processing : ' . $units[$i][name] . '<br>';
+						$return = $units[$i][name];
+
+						if ( $units[$i][id] == $unit_id )
+						{
+							echo '<b class=red>found the right entry!! <br></b>';
+							$fount++;
+							break;
+						}
+						else
+						{
+							if ( is_array($units[$i][einheiten]) )
+							{
+								$return .= ', ' . einheit_string($unit_id, $units[$i][einheiten], $depth, $found);
+							}
+						}
+					}
+
+					return ($return);
+				}
+
+
+
+
+				echo '
+					<table width=98% align=center>
+						<tr>
+							<td width=30% align=right>
+								Loginname :
+							</td>
+							<td>
+								<b>
+									' . $result[login_name] . '
+								</b>
+							</td>
+						</tr>
+						<tr>
+							<td align=right>
+								Vorname :
+							</td>
+							<td>
+								<b>
+									' . $result[v_name] . '
+								</b>
+							</td>
+						</tr>
+						<tr>
+							<td align=right>
+								Nachname :
+							</td>
+							<td>
+								<b>
+									' . $result[n_name] . '
+								</b>
+							</td>
+						</tr>
+						<tr>
+							<td align=right>
+								Geburtstag :
+							</td>
+							<td>
+								<b>';
+					if ($result[birth] > 0)
+					{
+						echo strftime("%e.%m.%Y" ,$result[birth]);
+					}
+					echo  '
+								</b>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<br>
+							</td>
+						</tr>
+						<tr>
+							<td align=right>
+								Email :
+							</td>
+							<td>
+								<a href="mailto:' . $result[email]  . '" class=blue>
+									' . $result[email] . '
+								</a>
+							</td>
+						</tr>
+						<tr>
+							<td align=right>
+								Homepage :
+							</td>
+							<td>
+								<a href="' . $result[homepage] . '" class=blue>
+									' . $result[homepage] . '
+								</a>
+							</td>
+						</tr>
+						<tr>
+							<td align=right>
+								ICQ : 
+							</td>
+						<td>
+							<b>
+								' . $icq . '
+							</b>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<br>
+						</td>
+					</tr>
+					<tr>
+						<td align=right>
+							Rang :
+						</td>
+						<td>
+							<b>
+								' . $rang[$result[rang]][name] . '
+							</b>
+						</td>
+					</tr>
+					<tr>
+						<td align=right>
+							Funktion :
+						</td>
+						<td>
+							<b>
+							</b>
+						</td>
+					</tr>
+					<tr>
+						<td align=right>
+							Einheit :
+						</td>
+						<td>
+							<b>
+								' . $result[einheit] . '
+
+							</b>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<br>
+						</td>
+					</tr>
+					<tr>
+						<td align=right>
+							Last action :
+						</td>
+						<td>
+							<b>
+								' . strftime('%H:%M:%S', $result[last_action]) . '
+							</b>
+						</td>
+					</tr>
+				</table>
+				';
 			}
 			else
 			{
