@@ -54,7 +54,7 @@
 		if ($resetfile)
 		{
 			$log->reset_logfile($resetfile);
-			$message = 'Logfile wurde zurückgesetzt!<br>';
+			$message = '<b class=ok>Logfile wurde zurückgesetzt!</b><br>';
 		}
 
 		$title = 'Logfile wählen';
@@ -63,6 +63,8 @@
 
 		if ($handle = opendir('var/log'))
 		{
+			
+			$overall_size = 0;
 
 			/* This is the correct way to loop over the directory. */
 			while (false !== ($file = readdir($handle)))
@@ -79,21 +81,34 @@
 				if ($file)
 				{
 					$class = 'list_table_active';
+					
+					$overall_size += filesize('var/log/' . $file);
 
 					$message .= '
 								<tr class=' . $class . '>
+									<td>
+										<a href="' . $PHP_SELF . '?action=' . $action . '&file=' . $file . '&id=' . $id . '" title="Dieses Logfile betrachten!">' . $file . '</a>
+									</td>
 									<td width=30%>
 										' . ceil((filesize('var/log/' . $file) / 1024)) . ' KBytes
 									</td>
 									<td width=10% align=center>
 										<a href="' . $PHP_SELF . '?action=' . $action . '&resetfile=' . $file . '">reset</a>
 									</td>
-									<td>
-										<a href="' . $PHP_SELF . '?action=' . $action . '&file=' . $file . '&id=' . $id . '" title="Dieses Logfile betrachten!">' . $file . '</a>
-									</td>
 								</tr>';
 				}
 			}
+			$message .= '
+								<tr class=list_table_active>
+									<td>
+										<b>gesamt:</b>
+									</td>
+									<td>
+										<b>' . ceil($overall_size / 1024) . ' KB</b>
+									</td>
+									<td>										
+									</td>
+								</tr>';
 		}
 		$message .= '
 						</table>';
