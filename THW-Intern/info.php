@@ -153,7 +153,7 @@
 					Verbrauchtes Cappuchinopulver:
 				</td>
 				<td>
-					<b>bis jetzt ca. 500g</b>
+					<b>bis jetzt ca. 500g (Update: Jetzt wohl eher schon 1,5kg)</b>
 				</td>
 			</tr>
 			<tr>
