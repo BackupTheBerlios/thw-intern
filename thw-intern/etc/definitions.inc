@@ -173,8 +173,196 @@
 		);
 
 
+	define('BGR1', '0');			// 1. Bergungsgruppe
+	define('BGR2', '1');			// 2. Bergungsgruppe
+
+	define('TRP1', '0');			// 1. Trupp
+	define('TRP2', '0');			// 2. Trupp
 
 
+	$preserve_old_id = $id;
+	$id = 1;
 
+	$einheiten = array (
+			0 => array (
+					'name' => '1. TZ',
+					'id' => $id++,
+					'indent' => 0,
+					'selectable' => 1,
+					'assignable' => 0,
+					'einheiten' => array (
+							0 => array (
+								'name' => 'Zugtrupp',
+								'id' => $id++,
+								'indent' => 1,
+								'selectable' => 1,
+								'assignable' => 1,
+								'einheiten' => 0
+									),
+							1 => array (
+								'name' => '1. BGr',
+								'id' => $id++,
+								'indent' => 1,
+								'selectable' => 1,
+								'assignable' => 1,
+								'einheiten' => array (
+										0 => array (
+													'name' => '1. Trupp',
+													'id' => $id++,
+													'indent' => 2,
+													'selectable' => 1,
+													'assignable' => 1,
+													'einheiten' => 0
+												),
+										1 => array (
+													'name' => '2. Trupp',
+													'id' => $id++,
+													'indent' => 2,
+													'selectable' => 1,
+													'assignable' => 1,
+													'einheiten' => 0
+												)
+									)
+								),
+							2 => array (
+										'name' => '2. BGr',
+										'id' => $id++,
+										'indent' => 1,
+										'selectable' => 1,
+										'assignable' => 1,
+										'einheiten' => array (
+												0 => array (
+															'name' => '1. Trupp',
+															'id' => $id++,
+															'indent' => 2,
+															'selectable' => 1,
+															'assignable' => 1,
+															'einheiten' => 0
+														),
+												1 => array (
+															'name' => '2. Trupp',
+															'id' => $id++,
+															'indent' => 2,
+															'selectable' => 1,
+															'assignable' => 1,
+															'einheiten' => 0
+														)
+											)
+									),
+							3 => array (
+										'name' => 'FGr WP',
+										'id' => $id++,
+										'indent' => 1,
+										'selectable' => 1,
+										'assignable' => 1,
+										'einheiten' => array (
+												0 => array (
+															'name' => '1. Trupp',
+															'id' => $id++,
+															'indent' => 2,
+															'selectable' => 1,
+															'assignable' => 1,
+															'einheiten' => 0
+														),
+												1 => array (
+															'name' => '2. Trupp',
+															'id' => $id++,
+															'indent' => 2,
+															'selectable' => 1,
+															'assignable' => 1,
+															'einheiten' => 0
+														)
+											)
+									)
 
+						)
+					),
+			1 => array (
+					'name' => '2. TZ',
+					'id' => $id++,
+					'indent' => 0,
+					'selectable' => 1,
+					'einheiten' => array (
+							0 => array (
+								'name' => 'Zugtrupp',
+								'id' => $id++,
+								'indent' => 1,
+								'selectable' => 1,
+								'assignable' => 1,
+								'einheiten' => 0
+									),
+							1 => array (
+								'name' => '1. BGr',
+								'id' => $id++,
+								'indent' => 1,
+								'selectable' => 1,
+								'assignable' => 1,
+								'einheiten' => array (
+										0 => array (
+													'name' => '1. Trupp',
+													'id' => $id++,
+													'indent' => 2,
+													'selectable' => 1,
+													'assignable' => 1,
+													'einheiten' => 0
+												),
+										1 => array (
+													'name' => '2. Trupp',
+													'id' => $id++,
+													'indent' => 2,
+													'selectable' => 1,
+													'assignable' => 1,
+													'einheiten' => 0
+												)
+									)
+								),
+							2 => array (
+										'name' => '2. BGr',
+										'id' => $id++,
+										'indent' => 1,
+										'selectable' => 1,
+										'assignable' => 1,
+										'einheiten' => array (
+												0 => array (
+															'name' => '1. Trupp',
+															'id' => $id++,
+															'indent' => 2,
+															'selectable' => 1,
+															'assignable' => 1,
+															'einheiten' => 0
+														),
+												1 => array (
+															'name' => '2. Trupp',
+															'id' => $id++,
+															'indent' => 2,
+															'selectable' => 1,
+															'assignable' => 1,
+															'einheiten' => 0
+														)
+											)
+									)
+						)
+					)
+
+		);
+
+/*
+	$einheiten[] = array(
+			'name' => '2. Technischer Zug',
+			'einheiten' => array(
+					BGR1 => array(
+							'name' => '1. Bergungsgruppe',
+							'indent' => 1
+						),
+					BGR2 => array(
+							'name' => '2. Bergungsgruppe',
+							'indent' => 1
+						)
+				),
+			'indent' => 0
+		);
+
+*/
+
+	$id = $preserve_old_id;
 ?>
