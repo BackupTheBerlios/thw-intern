@@ -39,7 +39,7 @@
 				{
 					$email = trim($email);
 				}
-				
+
 				if ($homepage)
 				{
 					$homepage = trim($homepage);
@@ -49,15 +49,21 @@
 				{
 					$icq = trim($icq);
 				}
-				
+
 				if ($telefon)
 				{
 					$telefon = trim($telefon);
 				}
-				
+
 				if ($handy)
 				{
 					$handy = trim($handy);
+				}
+
+				if (!$rang_neu)
+				{
+					$output .= '<p class=red>Kein Rang ausgewählt</p>';
+					$error++;
 				}
 
 				if ($error)
@@ -80,40 +86,41 @@
 					$login_name = $n_name . $login_name;
 
 					$sql = "insert into " . DB_USERS . " (
-							n_name,
-							v_name,
-							einheit,
-							rang,
-							email,
-							homepage,
-							icq,
-							adresse,
-							telefon,
-							online,
-							last_action,
-							geburtstag,
-							last_login,
-							password,
-							login_name,
-							funktion)
+								n_name,
+								v_name,
+								einheit,
+								rang,
+								email,
+								homepage,
+								icq,
+								adresse,
+								telefon,
+								online,
+								last_action,
+								geburtstag,
+								last_login,
+								password,
+								login_name,
+								funktion
+							)
 							values
 							(
-							'$n_name',
-							'$v_name',
-							'',
-							$rang,
-							'$email',
-							'$homepage',
-							'$icq',
-							'',
-							'$telefon',
-							0,
-							0,
-							'$geburtstag',
-							0,
-							'$password',
-							'$login_name',
-							''
+								'$n_name',
+								'$v_name',
+								$einheit,
+								$rang_neu,
+								'$email',
+								'$homepage',
+								'$icq',
+								'',
+								'$telefon',
+								0,
+								0,
+								'$geburtstag',
+								0,
+								'$password',
+								'$login_name',
+								''
 							)";
 
 					// echo $sql;
@@ -131,7 +138,7 @@
 					$n_name = '';
 					$geburtstag = '';
 					$email = '';
-					$rang = '';
+					$rang_neu = '';
 					$telefon = '';
 					$handy = '';
 					$icq = '';
@@ -140,17 +147,50 @@
 				}
 			}
 
+				function parse_einheiten ($current)
+				{
+
+					for ($i = 0; $i < count($current); $i++)
+					{
+						if ( $current[$i][assignable] )
+						{
+							$inputstring = '<input type=radio name=einheit value=' . $current[$i][id] . '>';
+						}
+						else
+						{
+							$inputstring = '';
+						}
+						$output .= '
+								<tr>
+									<td>
+										' . str_repeat ('&nbsp;&nbsp;&nbsp;&nbsp;', $current[$i][indent]) . '
+										' . $inputstring . '
+										' .
+										$current[$i][name]
+										. '
+									</td>
+								</tr>
+							';
+
+							if ( is_array($current[$i][einheiten] )  )
+							{
+								$output .= parse_einheiten ( $current[$i][einheiten] );
+							}
+					}
+
+					return ( $output );
+				}
 
 
 				$output .= '
 					<form action=' . $PHP_SELF . ' method=get>
 						<table width=100% align=center border=0>
-							<tr>
+							<tr bgcolor=#F2F5FF>
 								<td colspan=2><b>Daten</b></td>
 							</tr>
 
 							<tr>
-								<td align=right width=50%>
+								<td align=right width=50% bgcolor=#F2F5FF>
 									Name
 								</td>
 								<td>
@@ -158,7 +198,7 @@
 								</td>
 							</tr>
 							<tr>
-								<td align=right width=50%>
+								<td align=right width=50% bgcolor=#F2F5FF>
 									Vorname
 								</td>
 								<td>
@@ -166,7 +206,7 @@
 								</td>
 							</tr>
 							<tr>
-								<td align=right width=50%>
+								<td align=right width=50% bgcolor=#F2F5FF>
 									Geburtstag
 								</td>
 								<td>
@@ -177,12 +217,12 @@
 							<tr>
 								<td colspan=2>&nbsp;</td>
 							</tr>
-							<tr>
+							<tr bgcolor=#F2F5FF>
 								<td colspan=2><b>Erreichbarkeit</b></td>
 							</tr>
 
 							<tr>
-								<td align=right width=50%>
+								<td align=right width=50% bgcolor=#F2F5FF>
 									E-Mail
 								</td>
 								<td>
@@ -190,7 +230,7 @@
 								</td>
 							</tr>
 							<tr>
-								<td align=right width=50%>
+								<td align=right width=50% bgcolor=#F2F5FF>
 									Homepage
 								</td>
 								<td>
@@ -198,7 +238,7 @@
 								</td>
 							</tr>
 							<tr>
-								<td align=right width=50%>
+								<td align=right width=50% bgcolor=#F2F5FF>
 									ICQ
 								</td>
 								<td>
@@ -206,7 +246,7 @@
 								</td>
 							</tr>
 							<tr>
-								<td align=right width=50%>
+								<td align=right width=50% bgcolor=#F2F5FF>
 									Telefon
 								</td>
 								<td>
@@ -214,7 +254,7 @@
 								</td>
 							</tr>
 							<tr>
-								<td align=right width=50%>
+								<td align=right width=50% bgcolor=#F2F5FF>
 									Handy
 								</td>
 								<td>
@@ -225,23 +265,20 @@
 							<tr>
 								<td colspan=2>&nbsp;</td>
 							</tr>
-							<tr>
-								<td colspan=2><b>Funktion</b></td>
+							<tr bgcolor=#F2F5FF>
+								<td colspan=2><b>Rang & Einheit</b></td>
 							</tr>
 
 							<tr>
-								<td align=right width=50%>
+								<td align=right bgcolor=#F2F5FF>
 									Rang
 								</td>
 								<td>
-									<select size=1 name=rang>';
+									<select size=1 name=rang_neu>';
 
-								$sql = "select name, id from " . DB_RANG . " order by rang";
-								$tmp = $db->query($sql);
-
-								while ($current = $db->fetch_array($tmp))
+								for ($i = 0; $i < ZUFU; $i++)
 								{
-									if ($current[id] == $rang)
+									if ( ( $i + 1 ) == $rang_neu)
 									{
 										$input_string = 'selected';
 									}
@@ -249,16 +286,53 @@
 									{
 										$input_string = '';
 									}
+
 									$output .= '
-										<option value=' . $current[id] . ' ' . $input_string . '>' . $current[name] . '</option>';
+										<option
+											value=' . ($i + 1) . ' ' . $input_string . '>
+											' . $rang[($i + 1)][name] . '
+										</option>';
 								}
+
+								$output .= '
+									<option value=0>------------------------------------</option>
+									';
+								for ($i = ZUFU; $i < OB; $i++)
+								{
+									if ( ( $i + 1 ) == $rang_neu)
+									{
+										$input_string = 'selected';
+									}
+									else
+									{
+										$input_string = '';
+									}
+
+									$output .= '
+										<option
+											value=' . ($i + 1) . ' ' . $input_string . '>
+											' . $rang[($i + 1)][name] . '
+										</option>';
+								}
+
 
 					$output .= '
 									</select>
 								</td>
 							</tr>
 
+
 							<tr>
+								<td align=right width=50% bgcolor=#F2F5FF>
+									Einheit
+								</td>
+								<td align=right>
+									<table width=100% align=center>
+												' . parse_einheiten($einheiten) . '
+									</table>
+								</td>
+							</tr>
+							<tr bgcolor=#F2F5FF>
 								<td align=right colspan=2 align=right>
 
 									<input type=hidden name=area value=user_create>
