@@ -9,40 +9,13 @@
 			$menu[1][link] = "$PHP_SELF?area=date_overview";
 			$menu[1][text] = 'Terminübersicht';
 
-			$sql = "select id, name from " . DB_DATETYPES . " order by id";
-			$date_types_raw = $db->query($sql);
-
-// 			$i = 0;
-// 			while ($current = $db->fetch_array($date_types_raw ))
-// 			{
-// 				$i++;
-// 				$date_types[$i] = $current[name];
-// 			}
-
 			$DateCreator->pagetitle('Neuen Termin erstellen', $menu);
 			echo '<br>';
 
 
 			if ($submit == 'Weiter')
 			{
-/*				switch ($type)
-				{
-					case 2:				// Ausbildung
-						$has_unit = 1;
-						break;
-					case 3:				// THV-Dienst
-						$helfer_preset = 6;
-						$has_userlist = 1;
-						break;
-					case 5:				// Straßensperrung
-						$has_userlist = 1;
-						break;
-					case 10:			// Lehrgang
-						$has_userlist = 1;
-						$has_unit = 0;
-					default:
-				}		*/
-
+				
 				// Laden der Einstellungen aus den Definitionen
 				$has_unit = $date_types[$type][has_unit];
 				$has_userlist = $date_types[$type][has_userlist];
@@ -304,7 +277,7 @@
 
 						$db->query($sql);
 
-						$message = 'Ein neuer <a href="' . $PHP_SELF . '?area=date_view&id=' . $reserved_id . '" class=blue>Dienst</a> (' . $date_types[$type] . ') wurde von ' . $user_v_name . ' ' . $user_n_name . ' am ' . strftime('%e.%m.%Y um %H:%M') . ' angelegt! Details gibt`s <a href="' . $PHP_SELF . '?area=date_view&id=' . $reserved_id . '" class=blue>hier</a>!';
+						$message = 'Ein neuer <a href="index.php?area=date_view&id=' . $reserved_id . '" class=blue>Dienst</a> (' . $date_types[$type] . ') wurde von ' . $user_v_name . ' ' . $user_n_name . ' am ' . strftime('%e.%m.%Y um %H:%M') . ' angelegt! Details gibt`s <a href="' . $PHP_SELF . '?area=date_view&id=' . $reserved_id . '" class=blue>hier</a>!';
 						$sql = "insert into " . DB_NEWS . " (
 											creator,
 											date,

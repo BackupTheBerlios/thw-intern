@@ -198,7 +198,7 @@
 
 						$db->query($sql);
 
-						$message = 'Der <a href="' . $PHP_SELF . '?area=date_view&id=' . $reserved_id . '" class=blue>Termin</a> (' . $date_types[$type] . ') wurde von ' . $user_v_name . ' ' . $user_n_name . ' am ' . strftime('%e.%m.%Y um %H:%M') . ' geändert! Details gibt`s <a href="' . $PHP_SELF . '?area=date_view&id=' . $reserved_id . '" class=blue>hier</a>!';
+						$message = 'Der <a href="index.php?area=date_view&id=' . $reserved_id . '" class=blue>Termin</a> (' . $date_types[$type] . ') wurde von ' . $user_v_name . ' ' . $user_n_name . ' am ' . strftime('%e.%m.%Y um %H:%M') . ' geändert! Details gibt`s <a href="' . $PHP_SELF . '?area=date_view&id=' . $reserved_id . '" class=blue>hier</a>!';
 						$sql = "insert into " . DB_NEWS . " (
 											creator,
 											date,
