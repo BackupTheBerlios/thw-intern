@@ -10,57 +10,183 @@
 			$menu[1][text] = 'Terminübersicht';
 
 			$DateCreator->pagetitle('Neuen Termin erstellen', $menu);
-			echo '<br>';
+			// document.forms[0].elements["hoge[]"][0].value
+			echo '
+				<br>
 
+				<script language="JavaScript">
+					function selectAllCheckboxes()
+					{
+
+					var msg = "";
+						for (i=0; i < ' . 9 . '; i++)
+						{
+							if (document.all.elements["einheit" + i][i].checked == true)
+							{
+								document.all.elements["einheit" + i][i].checked=false;
+							}
+							else
+							{
+								document.all.elements["einheit" + i][i].checked=true;
+							}
+						}
+					}
+				</script>
+				';
 
 			if ($submit == 'Weiter')
 			{
-				
+
 				// Laden der Einstellungen aus den Definitionen
 				$has_unit = $date_types[$type][has_unit];
-				$has_userlist = $date_types[$type][has_userlist];
+/*				if (!$has_userlist)
+				{
+					$has_userlist = $date_types[$type][has_userlist];
+				}*/
 				$helfer_preset = $date_types[$type][helfer_preset];
 				if (!$helfer_preset) { $helfer_preset = 10; }
 				$userlist_has_comment = $date_types[$type][userlist_has_comment];
 
-				$output = '<form action=' . $PHP_SELF . ' method=post>
-					<table width=100% align=center border=0>';
+				$output = '
+					<form action=' . $PHP_SELF . ' method=post>
+						<table width=100% align=center border=0 name=all>';
 
-						$output .= '<tr class=bar><td>Termin</tD></tr>';
-							$output .= '<tr><td align=center>Begin : <input type=text name=begin_date size=10> <input type=text name=begin_time size=5></td></tr>';
-							$output .= '<tr><td align=center>Ende : <input type=text name=end_date size=10> <input type=text name=end_time size=5></td></tr>';
-
-						$output .= '<tr class=bar><td>Kurzinfo</tD></tr>';
-							$output .= '<tr><td align=center><input type=text name=heading size=20></td></tr>';
-
-						$output .= '<tr class=bar><td>Kommentar</tD></tr>';
-							$output .= '<tr><td align=center><textarea name=comment cols=50 rows=5></textarea></td></tr>';
+						$output .= '
+							<tr class=bar>
+								<td>
+									Termin
+								</tD>
+							</tr>
+							<tr>
+								<td align=center>
+									Begin : 
+										<input type=text name=begin_date size=10> 
+										<input type=text name=begin_time size=5>
+								</td>
+							</tr>
+							<tr>
+								<td align=center>
+									Ende : 
+										<input type=text name=end_date size=10> 
+										<input type=text name=end_time size=5>
+								</td>
+							</tr>
+							<tr class=bar>
+								<td>
+									Kurzinfo
+								</tD>
+							</tr>
+							<tr>
+								<td align=center>
+									<input type=text name=heading size=20>
+								</td>
+							</tr>
+							<tr class=bar>
+								<td>
+									Kommentar
+								</tD>
+							</tr>
+							<tr>
+								<td align=center>
+									<textarea name=comment cols=50 rows=5>
+									</textarea>
+								</td>
+							</tr>';
 
 						if ($has_userlist)
 						{
-							$output .= '<tr class=bar><td>Helfer</tD></tr>';
-								$output .= '<tr><td align=center>Anzahl der benötigten Helfer : <input type=text size=3 name=anzahl_helfer value=' . $helfer_preset . '></td></tr>';
-								$output .= '<input type=hidden name=has_userlist value=1><input type=hidden name=userlist_has_comment value=' . $userlist_has_comment . '>';
+							$output .= '
+							<tr class=bar>
+								<td>
+									Helfer
+								</tD>
+							</tr>
+							<tr>
+								<td align=center>
+									Anzahl der benötigten Helfer :
+										<input type=text size=3 name=anzahl_helfer value=' . $helfer_preset . '>
+										<input type=hidden name=has_userlist value=1>
+										<input type=hidden name=userlist_has_comment value=' . $userlist_has_comment . '>
+									</td>
+								</tr>
+								';
 						}
 						else
 						{
 							$anzahl_helfer = 0;
-							$output .= '<input type=hidden name=anzahl_helfer value=0>';
+							$output .= '
+								<tr>
+									<td>
+										<input type=hidden name=anzahl_helfer value=0>
+									</td>
+								</tr>
+								';
 						}
 
 						if ($has_units)
 						{
-							$output .= '<tr class=bar><td>Einheit</tD></tr>';
-								$output .= '<tr><td align=center><table width=100% align=center><tr><td width=50% valign=top><table width=100% align=center>';
+							$output .= '
+								<tr class=bar>
+									<td>
+										Einheit
+									</tD>
+								</tr>
+								<tr>
+									<td align=center>
+										<table align=center>
+											<tr>
+												<td colspan=2>
+													<input type=checkbox onClick="selectAllCheckboxes()"> Alle auswählen
+												</td>
+											</tr>
+											<tr>
+								';
 
-								$output .= print_unit_checkbox($db, 1, 'einheit[]');
 
-								$output .= '</table></td><td valign=top><table widtH=100% align=center>';
+								function parse_einheiten ($current)
+								{
 
-								$output .= print_unit_checkbox($db, 2, 'einheit[]');
+									for ($i = 0; $i < count($current); $i++)
+									{
+// 										echo 'processing : ' . $current[$i][name] . ' id : ' . $current[$i][id] . ' <br>';
 
-								$output .= '</table></td></tr></table></td></tr>';
-								$output .= '<input type=hidden name=has_units value=1>';
+										if ( $current[$i][selectable] )
+										{
+											$inputstring = '<input type=checkbox name="einheit[]" value=' . $current[$i][id] .'>';
+										}
+										else
+										{
+											$inputstring = '';
+										}
+										$output .= '
+												<tr>
+													<td>
+														' . str_repeat ('&nbsp;&nbsp;&nbsp;&nbsp;', $current[$i][indent]) . '
+														' . $inputstring . '
+														' .
+														$current[$i][name]
+														. '
+													</td>
+												</tr>
+											';
+
+											if ( is_array($current[$i][einheiten] )  )
+											{
+												$output .= parse_einheiten ( $current[$i][einheiten] );
+											}
+									}
+
+									return ( $output );
+								}
+
+								$output .= parse_einheiten($einheiten);
+								$output .= '
+											</tr>
+										</table>
+										<input type=hidden name=has_units value=1>
+									</td>
+								</tr>
+								';
 						}
 						else
 						{
@@ -228,8 +354,38 @@
 						$output .= '<input type=hidden name=has_units value=1>';
 							if ($einheit)
 							{
-								$db_units = implode('#', $einheit);
-								$output .= '<input type=hidden name=einheiten value=' . $einheit . '>';
+								// Zuerst einmal alle Einheiten ausfindig machen die dabei sind!
+
+								$entered_units = array();
+
+								// echo 'Folgende Einheiten wurden gewählt : <br>';
+
+
+								$counter = 0;
+								for ( $i = 0; $i < count( $einheit ); $i++)
+								{
+									$sql = "select id from " . DB_USERS . " where einheit=" . $einheit[$i];
+									// echo ' <b> ' . $sql . '</b> <br>';
+									$raw = $db->query($sql);
+									if ($db->num_rows($raw))
+									{
+										while ( $current = $db->fetch_array($raw) )
+										{
+											$sql = "insert into " . DB_USERLISTS . "
+												(ref_id, user_id) values
+												($reserved_id, $current[id])
+												";
+											// echo $sql . '<br>';
+
+											$db->query($sql);
+											$counter++;
+										}
+									}
+
+								}
+
+/*								$db_units = implode('#', $einheit);
+								$output .= '<input type=hidden name=einheiten value=' . $einheit . '>';*/
 							}
 							else
 							{
@@ -273,11 +429,11 @@
 													begin=$db_begin,
 													end=$db_end
 													where id=$reserved_id";
-						$output .= 'sql : ' . $sql;
+						// $output .= 'sql : ' . $sql;
 
 						$db->query($sql);
 
-						$message = 'Ein neuer <a href="index.php?area=date_view&id=' . $reserved_id . '" class=blue>Dienst</a> (' . $date_types[$type] . ') wurde von ' . $user_v_name . ' ' . $user_n_name . ' am ' . strftime('%e.%m.%Y um %H:%M') . ' angelegt! Details gibt`s <a href="' . $PHP_SELF . '?area=date_view&id=' . $reserved_id . '" class=blue>hier</a>!';
+						$message = 'Ein neuer <a href="index.php?area=date_view&id=' . $reserved_id . '" class=blue>Dienst</a> (' . $date_types[$type][name] . ') wurde von ' . $user_v_name . ' ' . $user_n_name . ' am ' . strftime('%e.%m.%Y um %H:%M') . ' angelegt! Details gibt`s <a href="' . $PHP_SELF . '?area=date_view&id=' . $reserved_id . '" class=blue>hier</a>!';
 						$sql = "insert into " . DB_NEWS . " (
 											creator,
 											date,
@@ -297,9 +453,11 @@
 						$menu[right][link] = "$PHP_SELF?area=date_overview";
 						$menu[left][text] = 'weiteren Termin erstellen';
 						$menu[left][link] = "$PHP_SELF?area=date_create";
+						
+						$output = 'Es wurden insgesamt <b>' . $counter . '</b> Helfer automatisch eingetragen!';
 					}
 
-					$InputBox = new InfoBox($headline, $output, $menu, '95%');
+					$InputBox = new InfoBox($headline, $output, $menu, '90%');
 
 			}
 			else
@@ -314,7 +472,7 @@
 								';
 					for ($i = 0; $i < count($date_types); $i++)
 					{
-						$output .= '<option value=' . ($i) . '>' . ($i) . ' ' . $date_types[$i][name] . '</option>';
+						$output .= '<option value=' . ($i) . '> ' . $date_types[$i][name] . '</option>';
 					}
 
 					$output .= '	</select></center><br>';
@@ -331,7 +489,7 @@
 										</tr>
 										<tr>
 											<td><input type=checkbox name=has_units></td>
-											<td>Einheit</td>
+											<td>Einheit (deaktiviert weil nich fertig!)</td>
 										</tr>
 										<tr>
 											<td><input type=checkbox name=has_ort></td>
