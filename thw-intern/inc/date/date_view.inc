@@ -3,6 +3,21 @@
 			$DateView = new Page('Termin', $area, $GLOBALS[user_id], DEFAULT_STYLESHEET, $db, 1);
 			$DateView->html_header();
 
+			$sql = "select *, unix_timestamp(created) as new_date from " . DB_DATES . " where id = $id";
+			$current = $db->fetch_array($db->query($sql));
+
+			$owner = 0;
+
+			if ($user_id == $current[creator] )
+			{
+				$owner = 1;
+			}
+			if ( $owner or $DateView->admin() )
+			{
+				$admin = 1;
+			}
+
+
 			if ($user_add)
 			{
 					// Zuerst überprüfen ob der User bereits eingetragen ist!
@@ -84,20 +99,13 @@
 			$menu[1][text] = 'Terminübersicht';
 			$menu[2][link] = "$PHP_SELF?area=date_create";
 			$menu[2][text] = 'Neuen Termin anlegen';
-			$menu[3][link] = "$PHP_SELF?area=date_edit&id=$id";
+			$menu[3][link] = "$PHP_SELF?area=date_edit&id=$id&post_news=1";
 			$menu[3][text] = 'Diesen Termin editieren';
-			$menu[4][link] = "$PHP_SELF?area=date_delete&id=$id";
+			$menu[4][link] = "$PHP_SELF?area=date_delete&id=$id&post_news=1";
 			$menu[4][text] = 'Diesen Termin löschen';
 
 			$DateView->pagetitle('Termin', $menu);
 			// $viewer = new DateViewer($id, $db);
-
-
-			$sql = "select *, unix_timestamp(created) as new_date from " . DB_DATES . " where id = $id";
-
-			$current = $db->fetch_array($db->query($sql));
-
-
 
 			$output = '
 
@@ -168,7 +176,7 @@
 					{
 						while ( $current_helfer = $db->fetch_array($helfer) )
 						{
-							if ( 1 )
+							if ( $admin )
 							{
 								$temp_string .= '
 									<tr>
@@ -197,6 +205,7 @@
 										';
 							}
 						}
+
 					}
 					else
 					{
@@ -206,7 +215,7 @@
 							';
 						while ( $current_helfer = $db->fetch_array($helfer) )
 						{
-							if ( 1 )		// TODO : Adminüberprüfung!!!
+							if ( $admin )		
 							{
 								$temp_string .= '
 									<a href="' . $PHP_SELF . '?area=date_view&id=' . $id . '&remove_user=' . $current_helfer[user_id] . '" class=blue>' .
@@ -245,44 +254,77 @@
 
 
 
+
 				if ( ( $current[anzahl_helfer]  - $eingetragene_helfer[count] ) > 0  )
 				{
-					$output .= '
-						<tr>
-							<td style="font-size: 9pt;" >
-								Helfer eintragen :
-							</td>
-							<td align=left bgcolor=#F2F5FF style="font-weight: bold;">
-								<form action="' . $PHP_SELF . '" method=get>
-									<select size=1 name=user_add>
+					if ( $admin )
+					{
+						$output .= '
+							<tr>
+								<td style="font-size: 9pt;" >
+									Helfer eintragen :
+								</td>
+								<td align=left bgcolor=#F2F5FF style="font-weight: bold;">
+									<form action="' . $PHP_SELF . '" method=get>
+										<select size=1 name=user_add>
 
-								';
-							$sql = "select id, n_name, v_name from " . DB_USERS . " order by n_name";
-							$users_raw = $db->query($sql);
-
-
-							while ($current_helfer = $db->fetch_array($users_raw))
-							{
-								$output .= '<option value=' . $current_helfer[id] . '>' . $current_helfer[n_name] . ' ' . $current_helfer[v_name] . '</option>';
-							}
-
-							$output .= '
-									</select>
-								';
-							if ( $current[userlist_has_comment] )
-							{
-								$output .= '
-									<input type=text size=20 name=comment maxlength=255>
 									';
-							}
-							$output .= '
-									<input type=hidden name=area value=date_view>
-									<input type=hidden name=id value=' . $id . '>
-									<input type=submit value=Eintragen>
-								</form>
-							</td>
-						</tr>
-						';
+								$sql = "select id, n_name, v_name from " . DB_USERS . " order by n_name";
+								$users_raw = $db->query($sql);
+
+
+								while ($current_helfer = $db->fetch_array($users_raw))
+								{
+									$output .= '<option value=' . $current_helfer[id] . '>' . $current_helfer[n_name] . ' ' . $current_helfer[v_name] . '</option>';
+								}
+
+								$output .= '
+										</select>
+									';
+								if ( $current[userlist_has_comment] )
+								{
+									$output .= '
+										<input type=text size=20 name=comment maxlength=255>
+										';
+								}
+								$output .= '
+										<input type=hidden name=area value=date_view>
+										<input type=hidden name=id value=' . $id . '>
+										<input type=submit value=Eintragen>
+									</form>
+								</td>
+							</tr>
+							';
+					}
+					else
+					{
+						$output .= '
+							<tr>
+								<td style="font-size: 9pt;" >
+									Mich eintragen :
+								</td>
+								<td align=left bgcolor=#F2F5FF style="font-weight: bold;">
+									<form action="' . $PHP_SELF . '" method=post>
+									
+									<b>' . $user_v_name . ' ' . $user_n_name . ' :
+									<input type=hidden name=user_add value=' . $user_id . '>
+									';
+
+								if ( $current[userlist_has_comment] )
+								{
+									$output .= '
+										<input type=text size=20 name=comment maxlength=255>
+										';
+								}
+								$output .= '
+										<input type=hidden name=area value=date_view>
+										<input type=hidden name=id value=' . $id . '>
+										<input type=submit value=Eintragen>
+									</form>
+								</td>
+							</tr>
+							';
+					}
 				}
 
 			}
