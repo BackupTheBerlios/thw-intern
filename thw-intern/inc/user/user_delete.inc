@@ -21,10 +21,13 @@
 					$menu[right][link] = "$PHP_SELF?area=user_overview";
 					$menu[right][text] = 'OK';
 
-					$output = 'Der User "' . $current[v_name] . ' ' . $current[n_name] . '" wurde gelöscht!';
-
 					$sql = "delete from " . DB_USERS . " where id=$id";
 					$db->query($sql);
+
+					$sql = "delete from " . DB_USERLISTS . " where user_id=$id";
+					$db->query($sql);
+
+					$output = 'Der User "' . $current[v_name] . ' ' . $current[n_name] . '" wurde gelöscht!';
 
 					$Dialog = new InfoBox('User gelöscht', $output, $menu);
 			}
