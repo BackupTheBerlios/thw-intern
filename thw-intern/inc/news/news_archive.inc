@@ -20,7 +20,8 @@
 					$message .= '
 							<tr>
 								<td colspan=2>
-									<a href="' . $PHP_SELF . '" class=blue>Zurück zur Übersicht</a>
+									<a href="' . $PHP_SELF . '" class=blue>Zurück zur Übersicht</a> - 
+									<a href="' . $PHP_SELF . '?area=news_add" class=blue>Neuer Eintrag</a>
 								</td>
 							</tr>
 							';
@@ -30,9 +31,9 @@
 								<tr>
 									<td colspan=2>';
 
-						if (strlen($news[message]) > 100)
+						if (strlen($news[message]) > 150)
 						{
-							$text = substr($news[message], 0, 100);
+							$text = substr($news[message], 0, 150);
 							$text .= str_pad($input, 3, '.');
 							$text .= ' [<a href=' . $PHP_SELF . '?area=news_read&read=' . $news[id] . ' class=blue>mehr</a>]';
 						}
