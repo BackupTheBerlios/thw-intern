@@ -46,6 +46,9 @@
 					$sql = "delete from " . DB_DATES . " where id=$id";
 
 					$db->query($sql);
+					
+					$sql = "delete from " . DB_USERLISTS . " where ref_id=$id";
+					$db->query($sql);
 
 					$Dialog = new InfoBox('Termin gelöscht', $output, $menu);
 			}
